@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Результаты проверки</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="title">Результаты проверки</h1>
+      <p class="subtitle">Погодные условия для выбранных городов:</p>
+
+      <div class="results-section">
+        <h2>Начальный город: {{ start_weather['city'] }}</h2>
+        <div class="weather-card">
+          <p class="weather-detail">Описание: {{ start_weather['weather_text'] }}</p>
+          <p class="weather-state">
+            Состояние погоды:
+            <span class="state-badge {{ start_weather['weather_state'] | lower }}">
+              {{ start_weather['weather_state'] }}
+            </span>
+          </p>
+          <p class="weather-detail">Температура: {{ start_weather['temperature'] }}°C</p>
+          <p class="weather-detail">Влажность: {{ start_weather['humidity'] }}%</p>
+          <p class="weather-detail">Скорость ветра: {{ start_weather['wind_speed'] }} м/с</p>
+        </div>
+        <h3>Соответствие параметрам:</h3>
+        <div class="condition-check">
+          {% for key, value in start_conditions.items() %}
+          {% if value %}
+          <p class="{% if 'плохая' in value %}warning{% else %}success{% endif %}">
+            {{ value }}
+          </p>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="results-section">
+        <h2>Конечный город: {{ end_weather['city'] }}</h2>
+        <div class="weather-card">
+          <p class="weather-detail">Описание: {{ end_weather['weather_text'] }}</p>
+          <p class="weather-state">
+            Состояние погоды:
+            <span class="state-badge {{ end_weather['weather_state'] | lower }}">
+              {{ end_weather['weather_state'] }}
+            </span>
+          </p>
+          <p class="weather-detail">Температура: {{ end_weather['temperature'] }}°C</p>
+          <p class="weather-detail">Влажность: {{ end_weather['humidity'] }}%</p>
+          <p class="weather-detail">Скорость ветра: {{ end_weather['wind_speed'] }} м/с</p>
+        </div>
+        <h3>Соответствие параметрам:</h3>
+        <div class="condition-check">
+          {% for key, value in end_conditions.items() %}
+          {% if value %}
+          <p class="{% if 'плохая' in value %}warning{% else %}success{% endif %}">
+            {{ value }}
+          </p>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="back-button-container">
+        <a href="{{ url_for('index') }}" class="btn-back">Назад </a>
+      </div>
+    </div>
+  </body>
+</html>
